@@ -1,0 +1,15 @@
+<form [formGroup]="schoolForm" (ngSubmit)="onSubmit()">
+      <div class="flex flex-column gap-2">
+        <label htmlFor="schoolName">Nom de l'établissement</label>
+        <input id="schoolName" type="text" pInputText formControlName="schoolName" />
+        
+        
+       <label htmlFor="schoolLogo">Logo de l'établissement</label>
+       <p-fileUpload id="schoolLogo" mode="basic" name="schoolLogo" accept="image/*" chooseLabel="Choisir un logo" (onSelect)="onFileSelected($event)" formControlName="schoolLogo"></p-fileUpload>
+
+
+        <div class="flex justify-content-end my-3">
+          <p-button label="Enregistrer" type="submit" [disabled]="schoolForm.invalid"></p-button>
+        </div>
+      </div>
+</form>
