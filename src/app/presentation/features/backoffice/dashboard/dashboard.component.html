@@ -1,0 +1,71 @@
+<div class="grid">
+    <div class="col-12 md:col-6 lg:col-3">
+        <p-card styleClass="h-full">
+            <ng-template pTemplate="header">
+                <div class="flex align-items-center gap-2 px-2 py-3">
+                    <i class="pi pi-users text-2xl text-primary"></i>
+                    <span class="text-xl font-bold">Total Students</span>
+                </div>
+            </ng-template>
+            <div class="flex flex-column align-items-center gap-2">
+                <span class="text-4xl font-bold">1,250</span>
+                <span class="text-sm text-green-500">+12% from last month</span>
+            </div>
+        </p-card>
+    </div>
+
+    <div class="col-12 md:col-6 lg:col-3">
+        <p-card styleClass="h-full">
+            <ng-template pTemplate="header">
+                <div class="flex align-items-center gap-2 px-2 py-3">
+                    <i class="pi pi-user text-2xl text-primary"></i>
+                    <span class="text-xl font-bold">Teachers</span>
+                </div>
+            </ng-template>
+            <div class="flex flex-column align-items-center gap-2">
+                <span class="text-4xl font-bold">85</span>
+                <span class="text-sm text-green-500">+5% from last month</span>
+            </div>
+        </p-card>
+    </div>
+
+    <div class="col-12 md:col-6 lg:col-3">
+        <p-card styleClass="h-full">
+            <ng-template pTemplate="header">
+                <div class="flex align-items-center gap-2 px-2 py-3">
+                    <i class="pi pi-book text-2xl text-primary"></i>
+                    <span class="text-xl font-bold">Classes</span>
+                </div>
+            </ng-template>
+            <div class="flex flex-column align-items-center gap-2">
+                <span class="text-4xl font-bold">42</span>
+                <span class="text-sm text-orange-500">Same as last month</span>
+            </div>
+        </p-card>
+    </div>
+
+    <div class="col-12 md:col-6 lg:col-3">
+        <p-card styleClass="h-full">
+            <ng-template pTemplate="header">
+                <div class="flex align-items-center gap-2 px-2 py-3">
+                    <i class="pi pi-chart-line text-2xl text-primary"></i>
+                    <span class="text-xl font-bold">Attendance Rate</span>
+                </div>
+            </ng-template>
+            <div class="flex flex-column align-items-center gap-2">
+                <span class="text-4xl font-bold">95%</span>
+                <span class="text-sm text-green-500">+2% from last month</span>
+            </div>
+        </p-card>
+    </div>
+
+      <div class="col-12 mt-4">
+        <p-card>
+            <div class="flex justify-content-between align-items-center mb-3">
+                <h5>Students Distribution</h5>
+                <p-dropdown [options]="years" [(ngModel)]="selectedYear" optionLabel="name"></p-dropdown>
+            </div>
+            <p-chart type="pie" [data]="chartData" [options]="chartOptions" height="400px"></p-chart>
+        </p-card>
+    </div>
+</div>

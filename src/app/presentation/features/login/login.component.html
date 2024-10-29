@@ -1,0 +1,50 @@
+<h2 class="text-center mb-4">Se connecter à Mon Etab</h2>
+    
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="flex flex-column gap-2">
+        <!-- Pseudo -->
+        <label htmlFor="pseudo">Pseudo</label>
+        <input 
+          id="pseudo" 
+          type="text" 
+          pInputText 
+          formControlName="pseudo"
+          class="w-full"
+          [class.ng-invalid]="isFieldInvalid('pseudo')"
+        />
+        <small class="p-error" *ngIf="isFieldInvalid('pseudo')">
+          Le pseudo est requis
+        </small>
+        
+        <!-- Mot de passe -->
+        <label htmlFor="password">Mot de passe</label>
+        <p-password 
+          id="password" 
+          formControlName="password"
+          [toggleMask]="true"
+          inputStyleClass="w-full"
+          [style]="{'width': '100%'}"
+          [inputStyle]="{'width':'100%'}"
+          [feedback]="false"
+          [class.ng-invalid]="isFieldInvalid('password')"
+        ></p-password>
+        <small class="p-error" *ngIf="isFieldInvalid('password')">
+          Le mot de passe doit contenir au moins 8 caractères
+        </small>
+
+        <!-- Message d'erreur global -->
+        <small class="p-error" *ngIf="loginForm.errors?.['invalidCredentials']">
+          Identifiants invalides
+        </small>
+        
+        <!-- Bouton de connexion -->
+        <div class="flex justify-content-end my-3">
+          <p-button 
+            label="{{ isLoading ? 'Connexion...' : 'Se connecter' }}"
+            type="submit"
+            [disabled]="loginForm.invalid || isLoading"
+            [loading]="isLoading"
+          ></p-button>
+        </div>
+      </div>
+    </form>

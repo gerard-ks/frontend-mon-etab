@@ -1,0 +1,13 @@
+export enum AuthStatus {
+  AUTHENTICATED = 'AUTHENTICATED',
+  UNAUTHENTICATED = 'UNAUTHENTICATED',
+  LOADING = 'LOADING'
+}
+
+export enum Roles {
+  ADMIN = 'ADMIN',
+  USER = 'USER',
+  PROFESSOR = 'PROFESSOR',
+  STUDENT = 'STUDENT',
+}
+

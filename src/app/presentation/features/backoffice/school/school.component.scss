@@ -1,0 +1,104 @@
+:host ::ng-deep {
+  .field {
+    margin-bottom: 1.5rem;
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  // Uniformiser la taille de tous les inputs
+  .p-inputtext,
+  .p-password,
+  .p-password input {
+    width: 100%;
+  }
+
+  // Correction spécifique pour le composant p-password
+  .p-password {
+    display: block; // Important pour que le composant prenne toute la largeur
+    
+    input {
+      width: 100%;
+    }
+  }
+
+  // Style pour les états d'erreur
+  .ng-invalid.ng-dirty,
+  .p-password.ng-invalid.ng-dirty > .p-inputtext {
+    border-color: var(--red-500);
+  }
+
+  // Style pour le message d'erreur
+  .p-error {
+    color: var(--red-500);
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+  }
+
+ 
+
+  // Style pour le composant p-table
+   .p-datatable {
+
+        margin: 0; // Supprime les marges
+
+        .p-datatable-wrapper {
+            margin: 0;  // Supprime les marges internes
+        }
+        
+        table {
+            width: 100%;  // Force la table à prendre toute la largeur
+            table-layout: fixed;  // Important pour les largeurs fixes
+        }
+
+        .p-datatable-header {
+            background-color: white;
+            color: var(--text-color);
+            border: none;
+            padding: 1rem;
+        }
+
+        .p-datatable-thead > tr > th {
+            background-color: var(--surface-900) !important;
+            color: white !important;
+            border: none;
+        }
+
+        .p-datatable-caption {
+            background-color: white;
+            border: none;
+            padding: 1rem;
+        }
+
+        // Style pour le champ de recherche
+        .p-input-icon-left {
+            .p-inputtext {
+                padding-top: 2.5rem;
+                padding-right: 2.5rem;
+                border-radius: 0.5rem;
+                background-color: white;
+                border: 1px solid #e2e8f0;
+
+                &:enabled:hover {
+                    border-color: #cbd5e1;
+                }
+
+                &:enabled:focus {
+                    box-shadow: none;
+                    border-color: #94a3b8;
+                }
+            }
+
+            i {
+                left: 0.75rem;
+                color: #94a3b8;
+            }
+        }
+
+        .p-icon {
+            color: #94a3b8;
+        }
+    }
+}

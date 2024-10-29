@@ -1,0 +1,78 @@
+<div class="grid">
+    <div class="col-12">
+        <p-card>
+            <div class="flex justify-content-between align-items-center mb-3">
+                <h1>Professors ({{ professors.length }})</h1>
+                <p-button label="Add Professor" icon="pi pi-plus" (onClick)="showDialog()"></p-button>
+            </div>
+            <p-table [value]="professors" [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5, 10, 25, 50]">
+                <ng-template pTemplate="caption">   
+                    <div class="flex">
+                        <p-iconField iconPosition="left" class="ml-auto">
+                        <p-inputIcon>
+                            <i class="pi pi-search"></i>
+                        </p-inputIcon>
+                        <input 
+                            pInputText 
+                            type="text" 
+                            placeholder="Search professor..." />
+                        </p-iconField>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Actions</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-professor>
+                    <tr>
+                        <td>{{ professor.name }}</td>
+                        <td>{{ professor.email }}</td>
+                        <td>{{ professor.phone }}</td>
+                        <td class="flex gap-2">
+                            <p-button label="Edit" icon="pi pi-pencil" (onClick)="showDialog()" styleClass="p-button-warning"></p-button>
+                            <p-button label="Delete" icon="pi pi-trash" (onClick)="deleteProfessor(professor)" styleClass="p-button-danger"></p-button>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </p-card>
+    </div>
+
+    <p-dialog header="Add New Professor" [(visible)]="visible" [modal]="true" [style]="{ width: '450px' }" 
+              [draggable]="false" [resizable]="false">
+        <form [formGroup]="professorForm" class="flex flex-column gap-3">
+            <div class="field">
+                <label for="name" class="font-bold">Name</label>
+                <input type="text" pInputText id="name" formControlName="name" class="w-full"/>
+                <small class="p-error" *ngIf="professorForm.get('name')?.invalid && professorForm.get('name')?.touched">
+                    Name is required
+                </small>
+            </div>
+
+            <div class="field">
+                <label for="email" class="font-bold">Email</label>
+                <input type="email" pInputText id="email" formControlName="email" class="w-full"/>
+                <small class="p-error" *ngIf="professorForm.get('email')?.invalid && professorForm.get('email')?.touched">
+                    Valid email is required
+                </small>
+            </div>
+
+            <div class="field">
+                <label for="phone" class="font-bold">Phone</label>
+                <input type="tel" pInputText id="phone" formControlName="phone" class="w-full"/>
+                <small class="p-error" *ngIf="professorForm.get('phone')?.invalid && professorForm.get('phone')?.touched">
+                    Phone is required
+                </small>
+            </div>
+        </form>
+
+        <ng-template pTemplate="footer">
+            <p-button label="Cancel" icon="pi pi-times" (onClick)="hideDialog()" styleClass="p-button-text"></p-button>
+            <p-button label="Save" icon="pi pi-check" (onClick)="saveProfessor()" [disabled]="!professorForm.valid"></p-button>
+        </ng-template>
+    </p-dialog>
+</div>

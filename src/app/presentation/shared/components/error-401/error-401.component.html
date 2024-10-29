@@ -1,0 +1,23 @@
+<div class="surface-ground px-4 py-8 md:px-6 lg:px-8">
+      <div class="flex flex-column align-items-center justify-content-center h-screen">
+        <div class="flex flex-column align-items-center">
+          <div style="color: var(--primary-color)" class="text-9xl font-bold">401</div>
+          <p class="text-6xl font-bold text-900 mb-2">Non autorisé</p>
+          <p class="text-3xl text-600">Désolé, vous devez vous connecter pour accéder à cette page.</p>
+          <div class="flex gap-3 mt-4">
+            <p-button 
+              label="Se connecter" 
+              icon="pi pi-sign-in" 
+              (onClick)="navigateToLogin()" 
+              styleClass="p-button-primary">
+            </p-button>
+            <p-button 
+              label="Retour à l'accueil" 
+              icon="pi pi-home" 
+              (onClick)="navigateToHome()" 
+              styleClass="p-button-secondary">
+            </p-button>
+          </div>
+        </div>
+      </div>
+    </div>

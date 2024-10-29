@@ -1,0 +1,66 @@
+<p-sidebar #sidebarRef [(visible)]="sidebarVisible" [modal]="false" [styleClass]="sidebarExpanded ? 'layout-sidebar expanded' : 'layout-sidebar collapsed'" [autoZIndex]="false" [baseZIndex]="0">
+    <ng-template pTemplate="headless">
+        <div class="flex flex-column h-full" *ngIf="currentUser$ | async as user">
+            <div class="sidebar-header flex align-items-center justify-content-between px-4 pt-3 flex-shrink-0">
+                 <div class="logo-container flex-grow-1 flex justify-content-center align-items-center">
+                  
+                        <img width="35" height="40" src="logo.png" alt="Logo" class="logo mr-2"/>
+                        <span className="font-semibold text-2xl text-primary logo-text ml-2" *ngIf="sidebarExpanded">Mon Etab</span>
+                 
+                 </div>
+                    <span>
+                        <p-button type="button" (onClick)="toggleSidebar()" [icon]="sidebarExpanded ? 'pi pi-angle-left' : 'pi pi-angle-right'" rounded="true" outlined="true" styleClass="toggle-btn h-2rem w-2rem"></p-button>
+                    </span>
+            </div>
+            <div class="sidebar-content overflow-y-auto">
+                <ul class="list-none p-3 m-0">
+                    <li>
+                        <div
+                            pRipple
+                            pStyleClass="@next"
+                            enterClass="hidden"
+                            enterActiveClass="slidedown"
+                            leaveToClass="hidden"
+                            leaveActiveClass="slideup"
+                            class="flex align-items-center justify-content-between text-600 cursor-pointer p-ripple"
+                        >
+                        </div>
+                        <ul class="list-none p-0 m-0 overflow-hidden">
+                            <li *ngFor="let item of menuItems">
+                                <a pRipple
+                                    [routerLink]="[item.route]"
+                                   routerLinkActive="surface-900 text-white"
+                                   [routerLinkActiveOptions]="{exact: true}" 
+                                    class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-900 hover:text-white transition-duration-150 transition-colors p-ripple no-underline">
+                                    <i [class]="item.icon  + (sidebarExpanded ? ' mr-2' : '')"></i>
+                                    <span class="font-medium" *ngIf="sidebarExpanded">{{ item.label }}</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="mt-auto user-section">
+                <hr class="mb-3 mx-3 border-top-1 border-none surface-border" *ngIf="sidebarExpanded"/>
+                <div class="user-info flex align-items-center p-3">
+                    <p-avatar [image]="user.photo ? user.photo : defaultAvatar" 
+                            shape="circle" 
+                            [size]="sidebarExpanded ? 'large' : 'normal'" 
+                            styleClass="mr-2"
+                            (onError)="handleAvatarError($event)"
+                             />
+                    <span class="font-bold user-name" *ngIf="sidebarExpanded">{{ user.pseudo }}</span>
+                </div>
+                <div class="logout-section px-3 pb-3">
+                    <button pButton 
+                            [label]="sidebarExpanded ? 'Se déconnecter' : ''" 
+                            icon="pi pi-sign-out"
+                            class="p-button-text w-full justify-content-start" 
+                            (click)="logout()"
+                            [pTooltip]="sidebarExpanded ? '' : 'Se déconnecter'">
+                    </button>
+    </div>
+        </div>
+        </div>
+    </ng-template>
+</p-sidebar>

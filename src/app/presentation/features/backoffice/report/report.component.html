@@ -1,0 +1,65 @@
+<div class="grid">
+    <div class="col-12">
+        <p-card>
+            <div class="flex justify-content-between align-items-center mb-3">
+                <h1>Reports</h1>
+            </div>
+            
+            <div class="flex flex-column gap-4">
+                <!-- Selection du type de rapport -->
+                <div class="flex flex-column gap-2">
+                    <label for="reportType" class="font-bold">Select Report Type</label>
+                    <p-dropdown [options]="reportTypes" 
+                              [(ngModel)]="selectedReportType" 
+                              optionLabel="name"
+                              placeholder="Select a report type"
+                              [style]="{'width': '100%'}"
+                              (onChange)="onReportTypeChange($event)">
+                    </p-dropdown>
+                </div>
+
+                <!-- Résultats de la sélection -->
+                <div class="flex flex-column gap-4" *ngIf="selectedReportType">
+                    <div class="surface-50 border-round p-4">
+                        <h2 class="mt-0 mb-3 text-lg">{{ selectedReportType.name }} Report</h2>
+                        <p>Total records: {{ getTotalRecords() }}</p>
+
+                        <!-- Aperçu des données -->
+                        <p-table [value]="getPreviewData()" [rows]="5" styleClass="mt-4">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-item>
+                                <tr>
+                                    <td>{{item.name}}</td>
+                                    <td>{{item.email}}</td>
+                                    <td>{{item.phone}}</td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+
+                    <!-- Boutons d'export -->
+                    <div class="flex justify-content-end gap-2">
+                        <p-button 
+                            label="Generate PDF" 
+                            icon="pi pi-file-pdf" 
+                            (onClick)="generatePDF()" 
+                            styleClass="p-button-secondary">
+                        </p-button>
+                        <p-button 
+                            label="Generate Excel" 
+                            icon="pi pi-file-excel" 
+                            (onClick)="generateExcel()"
+                            styleClass="p-button-success">
+                        </p-button>
+                    </div>
+                </div>
+            </div>
+        </p-card>
+    </div>
+</div>

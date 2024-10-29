@@ -1,0 +1,17 @@
+<div class="surface-ground px-4 py-8 md:px-6 lg:px-8">
+      <div class="flex flex-column align-items-center justify-content-center h-screen">
+        <div class="flex flex-column align-items-center">
+          <div style="color: var(--primary-color)" class="text-9xl font-bold">403</div>
+          <p class="text-6xl font-bold text-900 mb-2">Accès refusé</p>
+          <p class="text-3xl text-600">Désolé, vous n'avez pas les droits nécessaires pour accéder à cette page.</p>
+          <div class="flex gap-3 mt-4">
+            <p-button 
+              label="Retour à l'accueil" 
+              icon="pi pi-home" 
+              (onClick)="navigateToHome()" 
+              styleClass="p-button-primary">
+            </p-button>
+          </div>
+        </div>
+  </div>
+</div>

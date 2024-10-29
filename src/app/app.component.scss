@@ -1,0 +1,34 @@
+:host ::ng-deep {
+      .p-toast {
+        .p-toast-message {
+          &-success {
+            background: var(--green-100);
+            color: var(--green-900);
+            .p-toast-icon-close {
+              color: var(--green-900);
+            }
+          }
+          &-info {
+            background: var(--blue-100);
+            color: var(--blue-900);
+            .p-toast-icon-close {
+              color: var(--blue-900);
+            }
+          }
+          &-warn {
+            background: var(--orange-100);
+            color: var(--orange-900);
+            .p-toast-icon-close {
+              color: var(--orange-900);
+            }
+          }
+          &-error {
+            background: var(--red-100);
+            color: var(--red-900);
+            .p-toast-icon-close {
+              color: var(--red-900);
+            }
+          }
+        }
+      }
+    }

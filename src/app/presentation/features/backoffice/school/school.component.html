@@ -1,0 +1,264 @@
+<div class="grid">
+    <div class="col-12">
+        <p-card  [styleClass]="'p-0'">
+             <div class="flex justify-content-between align-items-center mb-3">
+                <h1>Écoles ({{ totalSchools }}) </h1>
+                <p-button label="Ajouter une école" icon="pi pi-plus" (onClick)="showDialog()"></p-button>
+            </div>
+            <p-table 
+                [value]="schools" 
+                [paginator]="true" 
+                [rows]="pageSize" 
+                [totalRecords]="totalSchools"
+                [loading]="loading" 
+                [lazy]="true"
+                (onPage)="onPageChange($event)"
+                styleClass="w-full"
+                >
+                <ng-template pTemplate="caption">   
+                    <div class="flex justify-content-between align-content-center">
+                        <p-iconField iconPosition="right" class="ml-auto">
+                        <p-inputIcon>
+                            <i class="pi pi-search"></i>
+                        </p-inputIcon>
+                        <input 
+                            pInputText 
+                            type="text" 
+                            placeholder="Rechercher une école..." 
+                            class="w-15rem" 
+                            (input)="onSearch($event)" />
+                        </p-iconField>
+                        </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th hidden>Id</th>
+                        <th>Logo</th>
+                        <th>
+                            Nom 
+                        </th>
+                        <th>Actions</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-school>
+                    <tr>
+                        <td hidden>{{school.id}}</td>
+                        <td>
+                            <img [src]="school.url_logo" 
+                                 [alt]="school.name"
+                                 class="w-2rem h-2rem shadow-2 border-round">
+                        </td>
+                        <td>{{school.name}}</td>
+                        <td>
+                            <div class="flex gap-2">
+                                <p-button 
+                                    icon="pi pi-eye" 
+                                    severity="info"
+                                    (onClick)="detailSchool(school)"
+                                    pTooltip="Détails"
+                                    tooltipPosition="top">
+                                </p-button>
+                                <p-button 
+                                    icon="pi pi-pencil" 
+                                    severity="warning"
+                                    (onClick)="editSchool(school)"
+                                    pTooltip="Modifier">
+                                </p-button>
+                                <p-button 
+                                    icon="pi pi-trash" 
+                                    severity="danger"
+                                    (onClick)="deleteSchool(school)"
+                                    pTooltip="Supprimer">
+                                </p-button>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="loadingbody">
+                        <tr>
+                            <td colspan="4" class="text-center p-4">
+                                 <div class="flex flex-column align-items-center">
+                                    <p-progressSpinner 
+                                        styleClass="w-4rem h-4rem" 
+                                        strokeWidth="4" 
+                                        fill="var(--surface-ground)" 
+                                        animationDuration=".5s">
+                                    </p-progressSpinner>
+                                    <span class="mt-2 text-500">Chargement des écoles...</span>
+                                </div>
+                            </td>
+                        </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="4" class="text-center p-4">
+                            <div class="flex flex-column align-items-center">
+                                <ng-lottie [options]="options" class="w-10rem"></ng-lottie>
+                                <span class="mt-3 text-500">Aucune école trouvée</span>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </p-card>
+    </div>
+    <p-dialog header="Création d'une école" [(visible)]="visible" [modal]="true" [style]="{ width: '450px' }" 
+              [draggable]="false" [resizable]="false">
+        <form [formGroup]="schoolForm" class="flex flex-column gap-3" (ngSubmit)="saveSchool()">
+            
+            <div class="field">
+                <label for="name" class="font-bold">Nom de l'école</label>
+                <input type="text" pInputText id="name" formControlName="name" class="w-full" [ngClass]="{'ng-invalid ng-dirty': isFieldInvalid('name')}"/>
+                <small class="p-error" *ngIf="isFieldInvalid('name')">
+                    {{ getErrorMessage('name') }}
+                </small>
+            </div>
+
+            <div class="field">
+                <label for="file" class="font-bold">Logo de l'école</label>
+                    
+                    <p-fileUpload #fileUpload
+                        mode="advanced" 
+                        [customUpload]="true"
+                        [showUploadButton]="false"
+                        [showCancelButton]="false"
+                        [maxFileSize]="MAX_FILE_SIZE"
+                        accept="image/png, image/svg"
+                        chooseLabel="Choisir un logo" 
+                        invalidFileSizeMessageSummary="Taille de fichier invalide"
+                        invalidFileSizeMessageDetail="La taille maximale autorisée est de 5 MB"
+                        invalidFileTypeMessageSummary="Type de fichier invalide"
+                        invalidFileTypeMessageDetail="Seules les images sont autorisées"
+                        (onSelect)="onFileSelected($event)"
+                        (onClear)="onClearFile()"
+                        [class]="{'ng-invalid ng-dirty': !selectedFile && schoolForm.get('file')?.touched}">
+                        styleClass="w-full"
+                    </p-fileUpload>
+                     
+                    <small class="p-error" *ngIf="!selectedFile && schoolForm.get('file')?.touched">
+                        Le logo est requis
+                    </small>
+            </div>
+
+            <div formGroupName="appSettingDTO">
+               <div class="field">
+                    <label for="smtp_server" class="font-bold">Serveur SMTP</label>
+                    <input type="text" pInputText id="smtp_server" formControlName="smtp_server" class="w-full" [ngClass]="{'ng-invalid ng-dirty': isFieldInvalid('smtp_server', 'appSettingDTO')}"/>
+                    <small class="p-error" *ngIf="isFieldInvalid('smtp_server', 'appSettingDTO')">
+                        {{ getErrorMessage('smtp_server', 'appSettingDTO') }}
+                    </small>
+                </div>
+
+                <div class="field">
+                    <label for="smtp_port" class="font-bold">Port SMTP</label>
+                    <input type="tel" pInputText id="smtp_port" formControlName="smtp_port" class="w-full" [ngClass]="{'ng-invalid ng-dirty': isFieldInvalid('smtp_port', 'appSettingDTO')}"/>
+                    <small class="p-error" *ngIf="isFieldInvalid('smtp_port', 'appSettingDTO')">
+                        {{ getErrorMessage('smtp_port', 'appSettingDTO') }}
+                    </small>
+                </div>
+
+            <div class="field">
+                <label for="smtp_username" class="font-bold">Pseudo SMTP</label>
+                <input type="text" pInputText id="smtp_username" formControlName="smtp_username" class="w-full" [ngClass]="{'ng-invalid ng-dirty': isFieldInvalid('smtp_username', 'appSettingDTO')}"/>
+                <small class="p-error" *ngIf="isFieldInvalid('smtp_username', 'appSettingDTO')">
+                    {{ getErrorMessage('smtp_username', 'appSettingDTO') }}
+                </small>
+            </div>
+
+            <div class="field"> 
+                <label for="smtp_password" class="font-bold">Mot de passe SMTP</label>
+                <p-password id="smtp_password" 
+                            formControlName="smtp_password"
+                [toggleMask]="true"
+                [feedback]="true"
+                inputStyleClass="w-full"
+                [inputStyle]="{'width': '100%', 'padding': '0.75rem'}"
+                styleClass="w-full"
+                [ngClass]="{'ng-invalid ng-dirty': isFieldInvalid('smtp_password', 'appSettingDTO')}"
+                [weakLabel]="'Faible'"
+                [mediumLabel]="'Moyen'"
+                [strongLabel]="'Fort'"
+                promptLabel="Entrez un mot de passe"
+                placeholder="Entrez votre mot de passe">
+                </p-password>
+                    <small class="p-error" *ngIf="isFieldInvalid('smtp_password', 'appSettingDTO')">
+                    {{ getErrorMessage('smtp_password', 'appSettingDTO') }}
+                    </small>
+                </div>      
+            </div>
+        </form>
+
+        <ng-template pTemplate="footer">
+           <div class="flex justify-content-between gap-2">
+                <p-button label="Réinitialiser" 
+                         icon="pi pi-refresh" 
+                         (onClick)="resetForm()" 
+                         styleClass="p-button-secondary">
+                </p-button>
+                <p-button label="Enregistrer" 
+                         icon="pi pi-check" 
+                         (onClick)="saveSchool()"
+                         [disabled]="schoolForm.invalid">
+                </p-button>
+           </div>
+        </ng-template>
+    </p-dialog>
+    <p-dialog 
+    [(visible)]="displayDetailDialog"
+    [modal]="true"
+    [style]="{width: '70vw'}"
+    [draggable]="false"
+    [resizable]="false"
+    header="Détails de l'école"
+    styleClass="p-fluid">
+    
+    <div class="grid" *ngIf="selectedSchool">
+        <!-- Section Logo et Nom -->
+        <div class="col-12 md:col-4">
+            <div class="flex flex-column align-items-center mt-7">
+                <img [src]="selectedSchool.url_logo" 
+                     [alt]="selectedSchool.name"
+                     class="w-12rem h-12rem shadow-4 border-round mb-3">
+                <h2 class="text-xl font-semibold m-0">{{selectedSchool.name}}</h2>
+            </div>
+        </div>
+
+        <!-- Section SMTP -->
+        <div class="col-12 md:col-8">
+            <p-card header="Configuration SMTP" styleClass="h-full text-center">
+                <div class="flex flex-column align-items-center">
+                    <!-- Serveur SMTP -->
+                    <div class="col-12 md:col-6">
+                        <div class="field">
+                            <span class="font-medium text-900 block mb-2">Serveur SMTP</span>
+                            <div class="p-2 border-round surface-100">
+                                {{selectedSchool.appSettingDTO.smtp_server}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Port SMTP -->
+                    <div class="col-12 md:col-6">
+                        <div class="field">
+                            <span class="font-medium text-900 block mb-2">Port SMTP</span>
+                            <div class="p-2 border-round surface-100">
+                                {{selectedSchool.appSettingDTO.smtp_port}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Username SMTP -->
+                    <div class="col-12 md:col-6">
+                        <div class="field">
+                            <span class="font-medium text-900 block mb-2">Nom d'utilisateur</span>
+                            <div class="p-2 border-round surface-100">
+                                {{selectedSchool.appSettingDTO.smtp_username}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </p-card>
+        </div>
+    </div>
+</p-dialog>
+</div>

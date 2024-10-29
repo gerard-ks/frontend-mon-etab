@@ -1,0 +1,50 @@
+:host ::ng-deep {
+    .p-datatable {
+        .p-datatable-header {
+            background-color: white;
+            color: var(--text-color);
+            border: none;
+            padding: 1rem;
+        }
+
+        .p-datatable-thead > tr > th {
+            background-color: var(--surface-900) !important;
+            color: white !important;
+            border: none;
+        }
+
+        .p-datatable-caption {
+            background-color: white;
+            border: none;
+            padding: 1rem;
+        }
+
+        // Style pour le champ de recherche
+        .p-input-icon-left {
+            .p-inputtext {
+                padding-left: 2.5rem;
+                border-radius: 0.5rem;
+                background-color: white;
+                border: 1px solid #e2e8f0;
+
+                &:enabled:hover {
+                    border-color: #cbd5e1;
+                }
+
+                &:enabled:focus {
+                    box-shadow: none;
+                    border-color: #94a3b8;
+                }
+            }
+
+            i {
+                left: 0.75rem;
+                color: #94a3b8;
+            }
+        }
+
+        .p-icon {
+            color: #94a3b8;
+        }
+    }
+}
